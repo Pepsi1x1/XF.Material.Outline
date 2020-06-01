@@ -23,7 +23,7 @@
     <DefineConstants>$(DefineConstants);PLATFORM_IOS</DefineConstants>
   </PropertyGroup>
 
-  <PropertyGroup Condition=" $(TargetFramework.StartsWith('Xamarin.MonoAndroid')) ">
+  <PropertyGroup Condition=" $(TargetFramework.StartsWith('monoandroid')) ">
     <DefineConstants>$(DefineConstants);PLATFORM_ANDROID</DefineConstants>
   </PropertyGroup>
 
@@ -41,7 +41,7 @@
     <Compile Include="Platforms\Netstandard\**\*.cs" />
   </ItemGroup>
 
-  <ItemGroup Condition=" $(TargetFramework.StartsWith('xamarin.ios')) ">
+  <ItemGroup Condition=" $(TargetFramework.StartsWith('Xamarin.iOS')) ">
     <None Remove="Platforms\Apple\**\*.cs" />
     <None Remove="Platforms\iOS\**\*.cs" />
     <None Remove="Platforms\Xamarin\**\*.cs" />
@@ -55,7 +55,7 @@
     <None Include="Info.plist" />
   </ItemGroup>
 
-  <ItemGroup Condition=" $(TargetFramework.StartsWith('xamarin.mac')) ">
+  <ItemGroup Condition=" $(TargetFramework.StartsWith('Xamarin.Mac')) ">
     <None Remove="Platforms\Apple\**\*.cs" />
     <None Remove="Platforms\Mac\**\*.cs" />
     <None Remove="Platforms\Xamarin\**\*.cs" />
@@ -79,11 +79,5 @@
     <PackageReference Include="Xamarin.Forms" Version="4.6.0.800" />
     <PackageReference Include="MsBuild.SDK.Extras" Version="2.0.54" PrivateAssets="All" />
   </ItemGroup>
-
-  <!--<ItemGroup>
-    <Compile Update="Core\MaterialOutlineTextView.xaml.cs">
-      <DependentUpon>MaterialOutlineTextView.xaml</DependentUpon>
-    </Compile>
-  </ItemGroup>-->
 
 </Project>
