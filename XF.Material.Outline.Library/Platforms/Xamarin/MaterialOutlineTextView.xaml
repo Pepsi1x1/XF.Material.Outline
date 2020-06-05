@@ -1,0 +1,27 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+
+<ContentView xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:core="clr-namespace:XF.Material.Outline.Core;assembly=XF.Material.Outline"
+             mc:Ignorable="d"
+             x:Class="XF.Material.Outline.MaterialOutlineTextView">
+	<ContentView.Content>
+		<Grid>
+			<Grid.ColumnDefinitions>
+				<ColumnDefinition Width="11" />
+				<ColumnDefinition Width="*" />
+				<ColumnDefinition Width="12" />
+			</Grid.ColumnDefinitions>
+			<Grid.RowDefinitions>
+				<RowDefinition Height="10" />
+				<RowDefinition Height="*" />
+			</Grid.RowDefinitions>
+			<core:InternalOutlineView Grid.RowSpan="2" Grid.ColumnSpan="3" x:Name="OutlineView"
+			                             TintColor="{Binding TintColor}" Placeholder="{Binding Placeholder}" />
+			<core:InternalTextView Grid.Column="1" Grid.Row="1" x:Name="TextView" TintColor="{Binding TintColor}" />
+
+		</Grid>
+	</ContentView.Content>
+</ContentView>

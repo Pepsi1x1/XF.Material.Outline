@@ -4,10 +4,9 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:d="http://xamarin.com/schemas/2014/forms/design"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-             xmlns:outline="clr-namespace:XF.Material.Outline;assembly=XF.Material.Outline"
-             xmlns:core="clr-namespace:XF.Material.Outline.Core;assembly=XF.Material.Outline"
+             xmlns:core="clr-namespace:XF.Material.Outline.Core;assembly=XF.Material.Outline.Core"
              mc:Ignorable="d"
-             x:Class="XF.Material.Outline.MaterialOutlineTextView">
+             x:Class="XF.Material.Outline.Core.MaterialOutlineTextView">
 	<ContentView.Content>
 		<Grid>
 			<Grid.ColumnDefinitions>
@@ -21,7 +20,7 @@
 			</Grid.RowDefinitions>
 			<core:InternalOutlineView Grid.RowSpan="2" Grid.ColumnSpan="3" x:Name="OutlineView"
 			                             TintColor="{Binding TintColor}" Placeholder="{Binding Placeholder}" />
-			<outline:InternalTextView Grid.Column="1" Grid.Row="1" x:Name="TextView" TintColor="{Binding TintColor}" />
+			<core:InternalTextView Grid.Column="1" Grid.Row="1" x:Name="TextView" TintColor="{Binding TintColor}" />
 
 		</Grid>
 	</ContentView.Content>

@@ -1,11 +1,14 @@
 ﻿using Android.Content;
+using Android.Graphics;
+using Android.Graphics.Drawables;
+using Android.Widget;
+using System;
 using Xamarin.Forms;
 using Xamarin.Forms.Platform.Android;
-using XF.Material.Outline;
+using Color = Android.Graphics.Color;
 
-[assembly: ExportRenderer(typeof(InternalTextView), typeof(InternalTextViewRenderer))]
-
-namespace XF.Material.Outline
+[assembly: ExportRenderer(typeof(XF.Material.Outline.Core.InternalTextView), typeof(XF.Material.Outline.Android.InternalTextViewRenderer))]
+namespace XF.Material.Outline.Android
 {
 	public class InternalTextViewRenderer : EntryRenderer
 	{
@@ -27,7 +30,7 @@ namespace XF.Material.Outline
 
 				if (e.NewElement != null)
 				{
-					InternalTextView textView = e.NewElement as InternalTextView;
+					XF.Material.Outline.Core.InternalTextView textView = e.NewElement as XF.Material.Outline.Core.InternalTextView;
 
 					this.ChangeCursorColor(textView.TintColor.ToAndroid());
 				}
@@ -41,12 +44,12 @@ namespace XF.Material.Outline
 				return;
 			}
 
-			this.Control.SetBackgroundColor(Android.Graphics.Color.Transparent);
+			this.Control.SetBackgroundColor(Color.Transparent);
 			this.Control.SetPadding(0, 0, 0, 0);
 			this.Control.SetIncludeFontPadding(false);
 		}
 
-		private void ChangeCursorColor(Android.Graphics.Color color)
+		private void ChangeCursorColor(Color color)
 		{
 			if (this.Control == null)
 			{
@@ -55,19 +58,19 @@ namespace XF.Material.Outline
 
 			try
 			{
-				var cursorResource = Java.Lang.Class.FromType(typeof(Android.Widget.TextView)).GetDeclaredField(CURSOR_DRAWABLE_RESOURCE);
+				var cursorResource = Java.Lang.Class.FromType(typeof(TextView)).GetDeclaredField(CURSOR_DRAWABLE_RESOURCE);
 
 				cursorResource.Accessible = true;
 
 				int resId = cursorResource.GetInt(this.Control);
 
-				Java.Lang.Reflect.Field editorField = Java.Lang.Class.FromType(typeof(Android.Widget.TextView)).GetDeclaredField(EDITOR_FIELD);
+				Java.Lang.Reflect.Field editorField = Java.Lang.Class.FromType(typeof(TextView)).GetDeclaredField(EDITOR_FIELD);
 
 				editorField.Accessible = true;
 
-				Android.Graphics.Drawables.Drawable cursorDrawable = Context.GetDrawable(resId);
+				Drawable cursorDrawable = Context.GetDrawable(resId);
 
-				cursorDrawable.SetColorFilter(color, Android.Graphics.PorterDuff.Mode.SrcIn);
+				cursorDrawable.SetColorFilter(new BlendModeColorFilter(color, BlendMode.SrcIn));
 
 				Java.Lang.Object editor = editorField.Get(this.Control);
 
@@ -77,13 +80,9 @@ namespace XF.Material.Outline
 
 				cursorDrawableField.Set(editor, new[] {cursorDrawable, cursorDrawable});
 			}
-			catch (Java.Lang.NoSuchFieldException)
+			catch (Exception)
 			{
 				// Whoops chaning the cursor color is not supported :(
-			}
-			catch (Android.Content.Res.Resources.NotFoundException)
-			{
-				// Uh oh, no cursor drawable!
 			}
 		}
 	}

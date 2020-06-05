@@ -1,11 +1,9 @@
 ﻿using UIKit;
 using Xamarin.Forms;
 using Xamarin.Forms.Platform.iOS;
-using XF.Material.Outline;
 
-[assembly: ExportRenderer(typeof(InternalTextView), typeof(InternalTextViewRenderer))]
-
-namespace XF.Material.Outline
+[assembly: ExportRenderer(typeof(XF.Material.Outline.Core.InternalTextView), typeof(XF.Material.Outline.iOS.InternalTextViewRenderer))]
+namespace XF.Material.Outline.iOS
 {
 	public class InternalTextViewRenderer : EntryRenderer
 	{
@@ -21,7 +19,7 @@ namespace XF.Material.Outline
 
 				if (e.NewElement != null)
 				{
-					InternalTextView materialOutlineTextView = e.NewElement as InternalTextView;
+					XF.Material.Outline.Core.InternalTextView materialOutlineTextView = e.NewElement as XF.Material.Outline.Core.InternalTextView;
 
 					this.Control.TintColor = materialOutlineTextView.TintColor.ToUIColor();
 				}

@@ -1,10 +1,13 @@
 ﻿using System;
+using System.Threading;
+using System.Threading.Tasks;
 using Xamarin.Forms;
+using Xamarin.Forms.Internals;
 using Xamarin.Forms.Xaml;
-using XF.Material.Outline.Core;
 
-namespace XF.Material.Outline
+namespace XF.Material.Outline.Core
 {
+	[Preserve (AllMembers = true)]
 	[XamlCompilation(XamlCompilationOptions.Compile)]
 	public partial class MaterialOutlineTextView : ContentView
 	{
@@ -34,6 +37,8 @@ namespace XF.Material.Outline
 			get => (string) this.GetValue(PlaceholderProperty);
 			set => this.SetValue(PlaceholderProperty, value);
 		}
+
+		public static CancellationTokenSource AnimCancellationToken { get; set; }
 
 		private static void LabelTextPropertyChanged(BindableObject bindable, object oldvalue, object newvalue)
 		{
@@ -108,19 +113,26 @@ namespace XF.Material.Outline
 
 			control.CurrentLoopIteration = 0;
 
-			Device.StartTimer(TimeSpan.FromMilliseconds(1), () =>
+			Task.Run(this.RunAnimationAsync);
+		}
+
+		private Task RunAnimationAsync()
+		{
+			InternalOutlineView control = this.OutlineView;
+
+			AnimCancellationToken = new CancellationTokenSource ();
+			while (!AnimCancellationToken.IsCancellationRequested)
 			{
 				control.CurrentLoopIteration++;
 
 				if (control.TotalLoops == control.CurrentLoopIteration)
 				{
-					return false;
+					return Task.CompletedTask;
 				}
 
-				Device.BeginInvokeOnMainThread(control.InvalidateSurface);
-
-				return true;
-			});
+				control.InvalidateSurface();
+			}
+			return Task.CompletedTask;
 		}
 	}
 }
