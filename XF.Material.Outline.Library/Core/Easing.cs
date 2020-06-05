@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace XF.Material.Outline
+namespace XF.Material.Outline.Core
 {
 	public class Easing
 	{

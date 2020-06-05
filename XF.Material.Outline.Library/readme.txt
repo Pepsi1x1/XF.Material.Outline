@@ -1,0 +1,1 @@
+A Xamarin.Forms library using SkiaSharp for Xamarin.Android and Xamarin.iOS to implement the outline styled text view in Google's Material Design.

@@ -1,13 +1,14 @@
 ﻿using System;
 using System.Diagnostics;
 using SkiaSharp;
-using SkiaSharp.HarfBuzz;
 using SkiaSharp.Views.Forms;
 using Xamarin.Forms;
+using Xamarin.Forms.Internals;
 using Xamarin.Forms.Xaml;
 
 namespace XF.Material.Outline.Core
 {
+	[Preserve (AllMembers = true)]
 	[XamlCompilation(XamlCompilationOptions.Compile)]
 	public class InternalOutlineView : SKCanvasView
 	{
@@ -327,9 +328,10 @@ namespace XF.Material.Outline.Core
 
 					paintText.TextSize = this._currentTextSize;
 
-					SKShaper shaper = new SKShaper(SKTypeface.Default);
+					///SKShaper shaper = new SKShaper(SKTypeface.Default);
 
-					canvas.DrawShapedText(shaper, this.Placeholder, this.LabelMargin, this._currentTextY, paintText);
+					//canvas.DrawShapedText(shaper, this.Placeholder, this.LabelMargin, this._currentTextY, paintText);
+					canvas.DrawText(this.Placeholder, this.LabelMargin, this._currentTextY, paintText);
 				}
 			}
 		}

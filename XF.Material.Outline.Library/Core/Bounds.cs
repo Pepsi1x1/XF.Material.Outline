@@ -1,4 +1,4 @@
-﻿namespace XF.Material.Outline
+﻿namespace XF.Material.Outline.Core
 {
 	internal struct Bounds
 	{

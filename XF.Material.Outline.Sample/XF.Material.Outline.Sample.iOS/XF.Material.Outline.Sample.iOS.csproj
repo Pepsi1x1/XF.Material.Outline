@@ -124,13 +124,18 @@
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Xamarin.Forms" Version="4.6.0.800" />
-    <PackageReference Include="Xamarin.Essentials" Version="1.5.3.2" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
   <ItemGroup>
-    <ProjectReference Include="..\..\XF.Material.Outline\XF.Material.Outline.csproj">
-      <Project>{bb175f27-69a9-4269-ae6d-f47e67dc127c}</Project>
-      <Name>XF.Material.Outline</Name>
+    <ProjectReference Include="..\..\XF.Material.Outline\XF.Material.Outline.Core\XF.Material.Outline.Core.csproj">
+      <Project>{badc926c-397a-483c-929a-480cdc9a3600}</Project>
+      <Name>XF.Material.Outline.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\XF.Material.Outline\XF.Material.Outline.iOS\XF.Material.Outline.iOS.csproj">
+      <Project>{e71f3053-056c-4381-9638-048ed73bdff6}</Project>
+      <Name>XF.Material.Outline.iOS</Name>
+      <IsAppExtension>false</IsAppExtension>
+      <IsWatchApp>false</IsWatchApp>
     </ProjectReference>
     <ProjectReference Include="..\XF.Material.Outline.Sample\XF.Material.Outline.Sample.csproj">
       <Project>{E421E44B-933A-40B3-9236-CCDEB188C1D8}</Project>

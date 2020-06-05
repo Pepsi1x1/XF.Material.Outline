@@ -1,7 +1,6 @@
 ﻿using Xamarin.Forms;
-using XF.Material.Outline.Core;
 
-namespace XF.Material.Outline
+namespace XF.Material.Outline.Core
 {
 	public class InternalTextView : Entry
 	{
