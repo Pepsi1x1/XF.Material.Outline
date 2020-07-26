@@ -15,13 +15,24 @@ namespace XF.Material.Outline.Core
 		public static readonly BindableProperty PlaceholderProperty = BindableProperty.Create(nameof(Placeholder), typeof(string), typeof(InternalOutlineView), null, BindingMode.OneWay, null, LabelTextPropertyChanged);
 
 		public static readonly BindableProperty TintColorProperty =
-			BindableProperty.Create(nameof(TintColor), typeof(Color), typeof(InternalOutlineView), null, BindingMode.OneWay, null, TintColorPropertyChanged, null, null, TintColorDefaultValueCreator);
+			BindableProperty.Create(nameof(TintColor), typeof(Color), typeof(InternalOutlineView), null, BindingMode.OneWay, null, TintColorPropertyChanged, null, null, defaultValueCreator: TintColorDefaultValueCreator);
+
+		public static readonly BindableProperty ForegroundColorProperty =
+			BindableProperty.Create(nameof(ForegroundColor), typeof(Color), typeof(InternalOutlineView), null, BindingMode.OneWay, null, ForegroundColorPropertyChanged, null, null, defaultValueCreator: ForegroundColorDefaultValueCreator);
+
+		public static readonly BindableProperty ErrorColorProperty =
+			BindableProperty.Create(nameof(ErrorColor), typeof(Color), typeof(InternalOutlineView), null, BindingMode.OneWay, null, ErrorColorPropertyChanged, null, null, defaultValueCreator: ErrorColorDefaultValueCreator);
+
 
 		private float _currentTextSize;
 
 		private float _currentTextY;
 
-		internal SKColor SkTintColor;
+		internal SKColor SkTintColor = Color.FromHex("#6200ee").ToSKColor();
+
+		internal SKColor SkForegroundColor = Color.FromHex("#FF808080").ToSKColor();
+
+		internal SKColor SkErrorColor = Color.FromHex("#b00020").ToSKColor();
 
 		public InternalOutlineView()
 		{
@@ -45,6 +56,18 @@ namespace XF.Material.Outline.Core
 		public int TotalLoops { get; set; } = 50;
 
 		public int CurrentLoopIteration { get; set; }
+		
+		public Color ErrorColor
+		{
+			get => (Color) this.GetValue(ErrorColorProperty);
+			set => this.SetValue(ErrorColorProperty, value);
+		}
+
+		public Color ForegroundColor
+		{
+			get => (Color) this.GetValue(ForegroundColorProperty);
+			set => this.SetValue(ForegroundColorProperty, value);
+		}
 
 		public Color TintColor
 		{
@@ -91,6 +114,28 @@ namespace XF.Material.Outline.Core
 			entry.MeasureText((string) newvalue);
 		}
 
+		private static void ErrorColorPropertyChanged(BindableObject bindable, object oldvalue, object newvalue)
+		{
+			InternalOutlineView entry = bindable as InternalOutlineView;
+
+			Debug.Assert(entry != null, nameof(entry) + " != null");
+
+			Color color = (Color) newvalue;
+			
+			entry.SkErrorColor = color.ToSKColor();
+		}
+
+		private static void ForegroundColorPropertyChanged(BindableObject bindable, object oldvalue, object newvalue)
+		{
+			InternalOutlineView entry = bindable as InternalOutlineView;
+
+			Debug.Assert(entry != null, nameof(entry) + " != null");
+
+			Color color = (Color) newvalue;
+			
+			entry.SkForegroundColor = color.ToSKColor();
+		}
+
 		private static void TintColorPropertyChanged(BindableObject bindable, object oldvalue, object newvalue)
 		{
 			InternalOutlineView entry = bindable as InternalOutlineView;
@@ -100,6 +145,32 @@ namespace XF.Material.Outline.Core
 			Color color = (Color) newvalue;
 			
 			entry.SkTintColor = color.ToSKColor();
+		}
+
+		private static object ForegroundColorDefaultValueCreator(BindableObject bindable)
+		{
+			InternalOutlineView entry = bindable as InternalOutlineView;
+
+			Debug.Assert(entry != null, nameof(entry) + " != null");
+
+			Color color = Color.FromHex("#FF008000");
+			
+			entry.SkForegroundColor = color.ToSKColor();
+			
+			return color;
+		}
+
+		private static object ErrorColorDefaultValueCreator(BindableObject bindable)
+		{
+			InternalOutlineView entry = bindable as InternalOutlineView;
+
+			Debug.Assert(entry != null, nameof(entry) + " != null");
+
+			Color color = Color.FromHex("#b00020");
+			
+			entry.SkErrorColor = color.ToSKColor();
+			
+			return color;
 		}
 
 		private static object TintColorDefaultValueCreator(BindableObject bindable)
@@ -221,9 +292,9 @@ namespace XF.Material.Outline.Core
 
 					float textOriginY = Math.Abs(this._currentTextY - textDestinationY) < 1f ? textDestinationY : textSize / 2f + this.LabelTextHeight / 2f;
 
-					this.DrawUnfocused(info, canvas, 1f, SKColors.Gray);
+					this.DrawUnfocused(info, canvas, 1f, this.SkForegroundColor);
 
-					this.DrawText(canvas, originTextSize, textSize, SKColors.Gray, textDestinationY, textOriginY, time);
+					this.DrawText(canvas, originTextSize, textSize, this.SkForegroundColor, textDestinationY, textOriginY, time);
 				}
 				else
 				{
@@ -235,9 +306,9 @@ namespace XF.Material.Outline.Core
 
 					float textOriginY = Math.Abs(this._currentTextY - textDestinationY) < 1f ? textDestinationY : (info.Height + textSize / 2f) / 2 + this.PlaceholderTextHeight / 3f;
 
-					this.DrawFocused(info, canvas, 1f, SKColors.Gray);
+					this.DrawFocused(info, canvas, 1f, this.SkForegroundColor);
 
-					this.DrawText(canvas, originTextSize, textSize, SKColors.Gray, textDestinationY, textOriginY, time);
+					this.DrawText(canvas, originTextSize, textSize, this.SkForegroundColor, textDestinationY, textOriginY, time);
 				}
 
 				// draw on the canvas

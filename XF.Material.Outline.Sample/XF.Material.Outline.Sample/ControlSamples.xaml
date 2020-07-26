@@ -1,0 +1,84 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:outline="clr-namespace:XF.Material.Outline.Core;assembly=XF.Material.Outline.Core"
+             mc:Ignorable="d"
+             x:Class="XF.Material.Outline.Sample.ControlSamples">
+
+    <ScrollView>
+	    <StackLayout Margin="0,30,0,0" Spacing="10">
+	        <!-- Place new controls here -->
+	        <Label 
+		        Text="Welcome to XF.Material.Outline!" 
+	            HorizontalOptions="Center"
+	            VerticalOptions="Start"
+		        Margin="0,0,0,30"/>
+
+	        <outline:MaterialOutlineTextView 
+		        WidthRequest="200" 
+		        HeightRequest="56" 
+		        HorizontalOptions="Center" 
+		        VerticalOptions="Start" 
+		        Placeholder="Placeholder" />
+
+	        <outline:MaterialOutlineTextView 
+		        WidthRequest="200" 
+		        HeightRequest="42" 
+		        HorizontalOptions="Center" 
+		        VerticalOptions="Start" 
+		        Placeholder="Dense" />
+
+	        <outline:MaterialOutlineTextView 
+		        WidthRequest="200" 
+		        HeightRequest="56" 
+		        HorizontalOptions="Center" 
+		        VerticalOptions="Start" 
+		        Placeholder="Placeholder" 
+		        TintColor="DodgerBlue"/>
+
+	        <outline:MaterialOutlineTextView 
+		        WidthRequest="200" 
+		        HeightRequest="42" 
+		        HorizontalOptions="Center" 
+		        VerticalOptions="Start" 
+		        Placeholder="Dense" 
+		        TintColor="DodgerBlue"/>
+
+	        <outline:MaterialOutlineTextView 
+		        WidthRequest="200" 
+		        HeightRequest="56" 
+		        HorizontalOptions="Center" 
+		        VerticalOptions="Start" 
+		        Placeholder="Placeholder" 
+		        TintColor="MediumSeaGreen" />
+
+	        <outline:MaterialOutlineTextView 
+		        WidthRequest="200" 
+		        HeightRequest="42" 
+		        HorizontalOptions="Center" 
+		        VerticalOptions="Start" 
+		        Placeholder="Dense" 
+		        TintColor="MediumSeaGreen" />
+
+			
+	        <outline:MaterialOutlineTextView 
+		        WidthRequest="200" 
+		        HeightRequest="56" 
+		        HorizontalOptions="Center" 
+		        VerticalOptions="Start" 
+		        Placeholder="Placeholder" 
+		        TintColor="PaleVioletRed" />
+
+	        <outline:MaterialOutlineTextView 
+		        WidthRequest="200" 
+		        HeightRequest="42" 
+		        HorizontalOptions="Center" 
+		        VerticalOptions="Start" 
+		        Placeholder="Dense" 
+		        TintColor="PaleVioletRed" />
+
+	    </StackLayout>
+    </ScrollView>
+</ContentPage>

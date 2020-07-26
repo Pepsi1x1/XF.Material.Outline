@@ -7,6 +7,9 @@
              xmlns:core="clr-namespace:XF.Material.Outline.Core;assembly=XF.Material.Outline.Core"
              mc:Ignorable="d"
              x:Class="XF.Material.Outline.Core.MaterialOutlineTextView">
+	<ContentView.Resources>
+		<core:NullConverter x:Key="NullConverter"/>
+	</ContentView.Resources>
 	<ContentView.Content>
 		<Grid>
 			<Grid.ColumnDefinitions>
@@ -17,11 +20,31 @@
 			<Grid.RowDefinitions>
 				<RowDefinition Height="10" />
 				<RowDefinition Height="*" />
+				<RowDefinition Height="16" />
 			</Grid.RowDefinitions>
-			<core:InternalOutlineView Grid.RowSpan="2" Grid.ColumnSpan="3" x:Name="OutlineView"
-			                             TintColor="{Binding TintColor}" Placeholder="{Binding Placeholder}" />
-			<core:InternalTextView Grid.Column="1" Grid.Row="1" x:Name="TextView" TintColor="{Binding TintColor}" />
 
+			<core:InternalOutlineView 
+				x:Name="OutlineView"
+				Grid.Row="0"
+				Grid.Column="0"
+				Grid.RowSpan="2" 
+				Grid.ColumnSpan="3" 
+				TintColor="{Binding TintColor, Mode=OneWay}" 
+				Placeholder="{Binding Placeholder, Mode=OneWay}" />
+
+			<core:InternalTextView 
+				x:Name="TextView"
+				Grid.Column="1" 
+				Grid.Row="1" 
+				TintColor="{Binding TintColor, Mode=OneWay}" />
+
+			<Label 
+				Grid.Row="2"
+				Grid.Column="1"
+				IsVisible="{Binding HelperText, Mode=OneWay, Converter={StaticResource NullConverter}}" 
+				TextColor="{Binding ForegroundColor, Mode=OneWay}"
+				Text="{Binding HelperText, Mode=OneWay}" 
+				FontSize="12" />
 		</Grid>
 	</ContentView.Content>
 </ContentView>

@@ -60,6 +60,17 @@ namespace XF.Material.Outline.Droid
 
 			try
 			{
+				if ((int)Build.VERSION.SdkInt >= 29)// Android.OS.BuildVersionCodes.Q)
+				{
+					var qCursorDrawable = this.Control.TextCursorDrawable;
+
+					qCursorDrawable.SetColorFilter(color, PorterDuff.Mode.SrcIn);
+
+					this.Control.TextCursorDrawable = qCursorDrawable;
+
+					return;
+				}
+
 				var cursorResource = Java.Lang.Class.FromType(typeof(TextView)).GetDeclaredField(CURSOR_DRAWABLE_RESOURCE);
 
 				cursorResource.Accessible = true;
@@ -78,11 +89,7 @@ namespace XF.Material.Outline.Droid
 
 				Java.Lang.Object editor = editorField.Get(this.Control);
 
-				if (Build.VERSION.SdkInt >= Android.OS.BuildVersionCodes.Q)
-				{
-					this.Control.TextCursorDrawable = cursorDrawable;
-				}
-				else if (Build.VERSION.SdkInt >= Android.OS.BuildVersionCodes.P)
+				if ((int)Build.VERSION.SdkInt >= 28)//Android.OS.BuildVersionCodes.P)
 				{
 					Java.Lang.Reflect.Field drawableForCursorField = editor.Class.GetDeclaredField(DRAWABLE_FOR_CURSOR_FIELD);
 
