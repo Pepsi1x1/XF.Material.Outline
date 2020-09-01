@@ -8,76 +8,11 @@
              x:Class="XF.Material.Outline.Sample.MainPage">
 
     <ScrollView>
-	    <StackLayout Margin="0,30,0,0" Spacing="10">
+	    <StackLayout Margin="0,30,0,0" Spacing="10" 
+	                 HorizontalOptions="CenterAndExpand" 
+	                 VerticalOptions="CenterAndExpand">
 	        <!-- Place new controls here -->
-	        <Label 
-		        Text="Welcome to XF.Material.Outline!" 
-	            HorizontalOptions="Center"
-	            VerticalOptions="Start"
-		        Margin="0,0,0,30"/>
-
-	        <outline:MaterialOutlineTextView 
-		        WidthRequest="200" 
-		        HeightRequest="56" 
-		        HorizontalOptions="Center" 
-		        VerticalOptions="Start" 
-		        Placeholder="Placeholder" />
-
-	        <outline:MaterialOutlineTextView 
-		        WidthRequest="200" 
-		        HeightRequest="42" 
-		        HorizontalOptions="Center" 
-		        VerticalOptions="Start" 
-		        Placeholder="Dense" />
-
-	        <outline:MaterialOutlineTextView 
-		        WidthRequest="200" 
-		        HeightRequest="56" 
-		        HorizontalOptions="Center" 
-		        VerticalOptions="Start" 
-		        Placeholder="Placeholder" 
-		        TintColor="DodgerBlue"/>
-
-	        <outline:MaterialOutlineTextView 
-		        WidthRequest="200" 
-		        HeightRequest="42" 
-		        HorizontalOptions="Center" 
-		        VerticalOptions="Start" 
-		        Placeholder="Dense" 
-		        TintColor="DodgerBlue"/>
-
-	        <outline:MaterialOutlineTextView 
-		        WidthRequest="200" 
-		        HeightRequest="56" 
-		        HorizontalOptions="Center" 
-		        VerticalOptions="Start" 
-		        Placeholder="Placeholder" 
-		        TintColor="MediumSeaGreen" />
-
-	        <outline:MaterialOutlineTextView 
-		        WidthRequest="200" 
-		        HeightRequest="42" 
-		        HorizontalOptions="Center" 
-		        VerticalOptions="Start" 
-		        Placeholder="Dense" 
-		        TintColor="MediumSeaGreen" />
-
-			
-	        <outline:MaterialOutlineTextView 
-		        WidthRequest="200" 
-		        HeightRequest="56" 
-		        HorizontalOptions="Center" 
-		        VerticalOptions="Start" 
-		        Placeholder="Placeholder" 
-		        TintColor="PaleVioletRed" />
-
-	        <outline:MaterialOutlineTextView 
-		        WidthRequest="200" 
-		        HeightRequest="42" 
-		        HorizontalOptions="Center" 
-		        VerticalOptions="Start" 
-		        Placeholder="Dense" 
-		        TintColor="PaleVioletRed" />
+	        <Button Text="Samples" Clicked="Button_OnClicked"></Button>
 
 	    </StackLayout>
     </ScrollView>

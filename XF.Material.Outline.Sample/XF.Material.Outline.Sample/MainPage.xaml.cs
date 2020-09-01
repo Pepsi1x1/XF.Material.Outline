@@ -17,5 +17,10 @@ namespace XF.Material.Outline.Sample
 		{
 			InitializeComponent();
 		}
+
+		public void Button_OnClicked(object sender, EventArgs e)
+		{
+			Navigation.PushAsync(new ControlSamples());
+		}
 	}
 }

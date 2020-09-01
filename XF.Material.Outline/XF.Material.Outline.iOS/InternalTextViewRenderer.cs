@@ -7,9 +7,14 @@ using Xamarin.Forms.Platform.iOS;
 [assembly: ExportRenderer(typeof(XF.Material.Outline.Core.InternalTextView), typeof(XF.Material.Outline.iOS.InternalTextViewRenderer))]
 namespace XF.Material.Outline.iOS
 {
-	[Preserve (AllMembers = true)]
+	//[Preserve (AllMembers = true)]
 	public class InternalTextViewRenderer : EntryRenderer
 	{
+		public InternalTextViewRenderer() : base()
+		{
+
+		}
+
 		protected override void OnElementChanged(ElementChangedEventArgs<Entry> e)
 		{
 			base.OnElementChanged(e);

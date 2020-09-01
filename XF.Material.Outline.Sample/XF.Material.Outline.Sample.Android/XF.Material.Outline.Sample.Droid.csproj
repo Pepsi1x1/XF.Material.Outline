@@ -16,7 +16,6 @@
     <AndroidManifest>Properties\AndroidManifest.xml</AndroidManifest>
     <MonoAndroidResourcePrefix>Resources</MonoAndroidResourcePrefix>
     <MonoAndroidAssetsPrefix>Assets</MonoAndroidAssetsPrefix>
-    <AndroidUseLatestPlatformSdk>false</AndroidUseLatestPlatformSdk>
     <TargetFrameworkVersion>v10.0</TargetFrameworkVersion>
     <AndroidEnableSGenConcurrent>true</AndroidEnableSGenConcurrent>
     <AndroidUseAapt2>true</AndroidUseAapt2>
@@ -67,7 +66,7 @@
     <Reference Include="System.Numerics.Vectors" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="Xamarin.Forms" Version="4.6.0.800" />
+    <PackageReference Include="Xamarin.Forms" Version="4.5.0.725" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="MainActivity.cs" />
@@ -106,7 +105,7 @@
       <Name>XF.Material.Outline.Android</Name>
     </ProjectReference>
     <ProjectReference Include="..\XF.Material.Outline.Sample\XF.Material.Outline.Sample.csproj">
-      <Project>{E421E44B-933A-40B3-9236-CCDEB188C1D8}</Project>
+      <Project>{D4F99A16-BEDF-434B-BBD9-E439CEC259D6}</Project>
       <Name>XF.Material.Outline.Sample</Name>
     </ProjectReference>
   </ItemGroup>

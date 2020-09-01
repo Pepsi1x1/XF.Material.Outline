@@ -11,11 +11,16 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Xamarin.Forms" Version="4.6.0.800" />
+    <PackageReference Include="Xamarin.Forms" Version="4.5.0.725" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\..\XF.Material.Outline\XF.Material.Outline.Core\XF.Material.Outline.Core.csproj" />
-    <ProjectReference Include="..\..\XF.Material.Outline\XF.Material.Outline.iOS\XF.Material.Outline.iOS.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Update="ControlSamples.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
   </ItemGroup>
 </Project>
