@@ -69,12 +69,13 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\XF.Material.Outline.Core\XF.Material.Outline.Core.csproj">
-      <Project>{8D5F7334-ADFF-4925-B1CA-47C199E39CC2}</Project>
+      <Project>{BADC926C-397A-483C-929A-480CDC9A3600}</Project>
       <Name>XF.Material.Outline.Core</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="InternalTextViewRenderer.cs" />
+    <Compile Include="Outline.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

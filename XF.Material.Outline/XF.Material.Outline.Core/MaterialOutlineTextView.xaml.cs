@@ -12,6 +12,8 @@ namespace XF.Material.Outline.Core
 	[XamlCompilation(XamlCompilationOptions.Compile)]
 	public partial class MaterialOutlineTextView : ContentView
 	{
+		public static readonly BindableProperty TextProperty = BindableProperty.Create(nameof(Text), typeof(string), typeof(MaterialOutlineTextView), null, BindingMode.TwoWay);
+
 		public static readonly BindableProperty PlaceholderProperty = BindableProperty.Create(nameof(Placeholder), typeof(string), typeof(MaterialOutlineTextView), null, BindingMode.OneWay, null, LabelTextPropertyChanged);
 
 		public static readonly BindableProperty HelperTextProperty = BindableProperty.Create(nameof(HelperText), typeof(string), typeof(MaterialOutlineTextView), null, BindingMode.OneWay, null, HelperTextPropertyChanged);
@@ -64,6 +66,12 @@ namespace XF.Material.Outline.Core
 			set => this.SetValue(PlaceholderProperty, value);
 		}
 
+		public string Text
+		{
+			get => (string)this.GetValue(TextProperty);
+			set => this.SetValue(TextProperty, value);
+		}
+
 		public static CancellationTokenSource AnimCancellationToken { get; set; }
 		
 		private static void HelperTextPropertyChanged(BindableObject bindable, object oldvalue, object newvalue)
@@ -72,16 +80,16 @@ namespace XF.Material.Outline.Core
 
 			Debug.Assert(entry != null, nameof(entry) + " != null");
 
-			if (string.IsNullOrWhiteSpace((string) oldvalue) && !string.IsNullOrWhiteSpace((string) newvalue))
-			{
-				entry.HeightRequest += 16;
-				Grid.SetRowSpan(entry.TextView, 1);
-			}
-			else if (string.IsNullOrWhiteSpace((string) newvalue) && !string.IsNullOrWhiteSpace((string) oldvalue))
-			{
-				entry.HeightRequest -= 16;
-				Grid.SetRowSpan(entry.TextView, 2);
-			}
+			//if (string.IsNullOrWhiteSpace((string) oldvalue) && !string.IsNullOrWhiteSpace((string) newvalue))
+			//{
+			//	entry.HeightRequest += 16;
+			//	Grid.SetRowSpan(entry.TextView, 1);
+			//}
+			//else if (string.IsNullOrWhiteSpace((string) newvalue) && !string.IsNullOrWhiteSpace((string) oldvalue))
+			//{
+			//	entry.HeightRequest -= 16;
+			//	Grid.SetRowSpan(entry.TextView, 2);
+			//}
 		}
 
 		private static void LabelTextPropertyChanged(BindableObject bindable, object oldvalue, object newvalue)
@@ -197,16 +205,43 @@ namespace XF.Material.Outline.Core
 			base.OnPropertyChanged(propertyName);
 
 			if (propertyName == nameof(this.HeightRequest))
-			{
-				this.OutlineView.ParentHeightRequest = this.HeightRequest;
-			}
+            {
+                SetHeightForHelperText();
+            }
+            else if (propertyName == nameof(this.HelperText))
+            {
+                SetHeightForHelperText();
+
+				this.OutlineView.HelperText = this.HelperText;
+            }
+			else if (propertyName == nameof(this.Text))
+            {
+				this.TextView.Text = this.Text;
+            }
 			else if (propertyName == nameof(this.WidthRequest))
 			{
 				this.OutlineView.ParentWidthRequest = this.WidthRequest;
 			}
 		}
 
-		private void OnTextChanged(object sender, TextChangedEventArgs e)
+        private void SetHeightForHelperText()
+        {
+            if (this.OutlineView.ParentHeightRequest != this.HeightRequest)
+            {
+                if (string.IsNullOrWhiteSpace(this.HelperText))
+                {
+                    this.OutlineView.ParentHeightRequest = this.HeightRequest += 16;
+                    Grid.SetRowSpan(this.TextView, 1);
+                }
+                else
+                {
+                    this.OutlineView.ParentHeightRequest = this.HeightRequest -= 16;
+                    Grid.SetRowSpan(this.TextView, 2);
+                }
+            }
+        }
+
+        private void OnTextChanged(object sender, TextChangedEventArgs e)
 		{
 			this.OutlineView.HasText = !string.IsNullOrWhiteSpace(e.NewTextValue);
 		}

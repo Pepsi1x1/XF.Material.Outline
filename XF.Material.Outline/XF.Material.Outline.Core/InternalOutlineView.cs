@@ -14,6 +14,8 @@ namespace XF.Material.Outline.Core
 	{
 		public static readonly BindableProperty PlaceholderProperty = BindableProperty.Create(nameof(Placeholder), typeof(string), typeof(InternalOutlineView), null, BindingMode.OneWay, null, LabelTextPropertyChanged);
 
+		public static readonly BindableProperty HelperTextProperty = BindableProperty.Create(nameof(HelperText), typeof(string), typeof(InternalOutlineView), null, BindingMode.OneWay);
+
 		public static readonly BindableProperty TintColorProperty =
 			BindableProperty.Create(nameof(TintColor), typeof(Color), typeof(InternalOutlineView), null, BindingMode.OneWay, null, TintColorPropertyChanged, null, null, defaultValueCreator: TintColorDefaultValueCreator);
 
@@ -93,6 +95,12 @@ namespace XF.Material.Outline.Core
 			set => this.SetValue(PlaceholderProperty, value);
 		}
 
+		public string HelperText
+		{
+			get => (string)this.GetValue(HelperTextProperty);
+			set => this.SetValue(HelperTextProperty, value);
+		}
+
 		public float LabelTextHeight { get; private set; }
 
 		public float PlaceholderTextHeight { get; private set; }
@@ -104,6 +112,8 @@ namespace XF.Material.Outline.Core
 		public double ParentHeightRequest { get; set; }
 
 		public double ParentWidthRequest { get; set; }
+
+		private bool _isInitialDraw = true;
 
 		private static void LabelTextPropertyChanged(BindableObject bindable, object oldvalue, object newvalue)
 		{
@@ -209,6 +219,8 @@ namespace XF.Material.Outline.Core
 
 		public void Init()
 		{
+			_isInitialDraw = true;
+
 			if (!this.HasText)
 			{
 				this._currentTextSize = this.PlaceHolderFontSize;
@@ -281,6 +293,12 @@ namespace XF.Material.Outline.Core
 			else
 			{
 				float time = (float) this.CurrentLoopIteration / this.TotalLoops;
+
+				if(_isInitialDraw)
+                {
+					time = 1;
+					_isInitialDraw = false;
+                }
 
 				if (!this.HasText)
 				{

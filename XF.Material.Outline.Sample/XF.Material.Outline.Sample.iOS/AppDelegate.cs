@@ -23,6 +23,9 @@ namespace XF.Material.Outline.Sample.iOS
         public override bool FinishedLaunching(UIApplication app, NSDictionary options)
         {
             global::Xamarin.Forms.Forms.Init();
+
+            XF.Material.Outline.iOS.Outline.Init();
+
             LoadApplication(new App());
 
             return base.FinishedLaunching(app, options);

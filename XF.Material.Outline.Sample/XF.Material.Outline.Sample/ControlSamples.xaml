@@ -16,7 +16,8 @@
 	            VerticalOptions="Start"
 		        Margin="0,0,0,30"/>
 
-	        <outline:MaterialOutlineTextView 
+	        <outline:MaterialOutlineTextView
+				Text="Text bound in view"
 		        WidthRequest="200" 
 		        HeightRequest="56" 
 		        HorizontalOptions="Center" 

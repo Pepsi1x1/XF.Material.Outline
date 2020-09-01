@@ -78,6 +78,7 @@
   <ItemGroup>
     <Compile Include="InternalTextViewRenderer.cs" />
     <Compile Include="Resources\Resource.Designer.cs" />
+    <Compile Include="Outline.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
