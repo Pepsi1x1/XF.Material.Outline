@@ -6,7 +6,26 @@
              xmlns:outline="clr-namespace:XF.Material.Outline.Core;assembly=XF.Material.Outline.Core"
              mc:Ignorable="d"
              x:Class="XF.Material.Outline.Sample.ControlSamples">
-
+    <ContentPage.Resources>
+        <Style TargetType="outline:MaterialOutlineTextView" x:Key="Dense">
+            <Setter Property="PlaceholderFontSize" Value="13" />
+            <Setter Property="LabelFontSize" Value="11" />
+            <Setter Property="Placeholder" Value="Dense" />
+            <Setter Property="HeightRequest" Value="42" />
+            <Setter Property="WidthRequest" Value="200" />
+            <Setter Property="VerticalOptions" Value="Start" />
+            <Setter Property="HorizontalOptions" Value="Center" />
+        </Style>
+        <Style TargetType="outline:MaterialOutlineTextView" x:Key="Standard">
+            <Setter Property="PlaceholderFontSize" Value="14" />
+            <Setter Property="LabelFontSize" Value="12" />
+            <Setter Property="Placeholder" Value="Placeholder" />
+            <Setter Property="HeightRequest" Value="56" />
+            <Setter Property="WidthRequest" Value="200" />
+            <Setter Property="VerticalOptions" Value="Start" />
+            <Setter Property="HorizontalOptions" Value="Center" />
+        </Style>
+    </ContentPage.Resources>
     <ScrollView>
 	    <StackLayout Margin="0,30,0,0" Spacing="10">
 	        <!-- Place new controls here -->
@@ -17,67 +36,51 @@
 		        Margin="0,0,0,30"/>
 
 	        <outline:MaterialOutlineTextView
-				Text="Text bound in view"
-		        WidthRequest="200" 
-		        HeightRequest="56" 
-		        HorizontalOptions="Center" 
-		        VerticalOptions="Start" 
-		        Placeholder="Placeholder" />
+                Style="{StaticResource Standard}"
+				Text="Text bound to control"
+                TextColor="Blue"
+                FontSize="10"
+                HelperText="Help"/>
 
-	        <outline:MaterialOutlineTextView 
-		        WidthRequest="200" 
-		        HeightRequest="42" 
-		        HorizontalOptions="Center" 
-		        VerticalOptions="Start" 
-		        Placeholder="Dense" />
+            <outline:MaterialOutlineTextView
+                Style="{StaticResource Standard}"
+		        HeightRequest="72" 
+                TextColor="Blue"
+                FontSize="10"
+                HelperText="Help"/>
 
-	        <outline:MaterialOutlineTextView 
-		        WidthRequest="200" 
-		        HeightRequest="56" 
-		        HorizontalOptions="Center" 
-		        VerticalOptions="Start" 
-		        Placeholder="Placeholder" 
-		        TintColor="DodgerBlue"/>
+            <outline:MaterialOutlineTextView 
+                Style="{StaticResource Standard}"
+		        TintColor="DodgerBlue"
+                HasError="True"
+                ErrorText="Ah ah ahhh!"/>
 
-	        <outline:MaterialOutlineTextView 
-		        WidthRequest="200" 
-		        HeightRequest="42" 
-		        HorizontalOptions="Center" 
-		        VerticalOptions="Start" 
-		        Placeholder="Dense" 
-		        TintColor="DodgerBlue"/>
-
-	        <outline:MaterialOutlineTextView 
-		        WidthRequest="200" 
-		        HeightRequest="56" 
-		        HorizontalOptions="Center" 
-		        VerticalOptions="Start" 
-		        Placeholder="Placeholder" 
+            <outline:MaterialOutlineTextView 
+                Style="{StaticResource Standard}"                
 		        TintColor="MediumSeaGreen" />
 
-	        <outline:MaterialOutlineTextView 
-		        WidthRequest="200" 
-		        HeightRequest="42" 
-		        HorizontalOptions="Center" 
-		        VerticalOptions="Start" 
-		        Placeholder="Dense" 
-		        TintColor="MediumSeaGreen" />
-
-			
-	        <outline:MaterialOutlineTextView 
-		        WidthRequest="200" 
-		        HeightRequest="56" 
-		        HorizontalOptions="Center" 
-		        VerticalOptions="Start" 
-		        Placeholder="Placeholder" 
+            <outline:MaterialOutlineTextView 
+                Style="{StaticResource Standard}"
 		        TintColor="PaleVioletRed" />
 
-	        <outline:MaterialOutlineTextView 
-		        WidthRequest="200" 
-		        HeightRequest="42" 
-		        HorizontalOptions="Center" 
-		        VerticalOptions="Start" 
-		        Placeholder="Dense" 
+            <outline:MaterialOutlineTextView 
+                Style="{StaticResource Dense}"                
+		        TintColor="DodgerBlue" />
+
+            <outline:MaterialOutlineTextView 
+                Style="{StaticResource Dense}"
+                />
+
+            <outline:MaterialOutlineTextView 
+                Style="{StaticResource Dense}"
+                />
+
+            <outline:MaterialOutlineTextView 
+                Style="{StaticResource Dense}"
+		        TintColor="MediumSeaGreen" />
+
+            <outline:MaterialOutlineTextView 
+                Style="{StaticResource Dense}"
 		        TintColor="PaleVioletRed" />
 
 	    </StackLayout>

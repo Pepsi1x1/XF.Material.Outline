@@ -14,9 +14,21 @@ namespace XF.Material.Outline.Core
 	{
 		public static readonly BindableProperty TextProperty = BindableProperty.Create(nameof(Text), typeof(string), typeof(MaterialOutlineTextView), null, BindingMode.TwoWay);
 
+		public static readonly BindableProperty FontSizeProperty = BindableProperty.Create(nameof(FontSize), typeof(double), typeof(MaterialOutlineTextView), 12.0, BindingMode.OneWay);
+				
+		public static readonly BindableProperty TextColorProperty = BindableProperty.Create(nameof(TextColor), typeof(Color), typeof(MaterialOutlineTextView), Color.Black, BindingMode.OneWay);
+
 		public static readonly BindableProperty PlaceholderProperty = BindableProperty.Create(nameof(Placeholder), typeof(string), typeof(MaterialOutlineTextView), null, BindingMode.OneWay, null, LabelTextPropertyChanged);
 
-		public static readonly BindableProperty HelperTextProperty = BindableProperty.Create(nameof(HelperText), typeof(string), typeof(MaterialOutlineTextView), null, BindingMode.OneWay, null, HelperTextPropertyChanged);
+		public static readonly BindableProperty HelperTextProperty = BindableProperty.Create(nameof(HelperText), typeof(string), typeof(MaterialOutlineTextView), null, BindingMode.OneWay);//, null, HelperTextPropertyChanged);
+
+		public static readonly BindableProperty ErrorTextProperty = BindableProperty.Create(nameof(ErrorText), typeof(string), typeof(MaterialOutlineTextView), null, BindingMode.OneWay);
+
+		public static readonly BindableProperty HasErrorProperty = BindableProperty.Create(nameof(HasError), typeof(bool), typeof(MaterialOutlineTextView), false, BindingMode.OneWay);
+
+		public static readonly BindableProperty PlaceholderFontSizeProperty = BindableProperty.Create(nameof(PlaceholderFontSize), typeof(float), typeof(MaterialOutlineTextView), 14f, BindingMode.OneWay);
+
+		public static readonly BindableProperty LabelFontSizeProperty = BindableProperty.Create(nameof(LabelFontSize), typeof(float), typeof(MaterialOutlineTextView), 12f, BindingMode.OneWay);
 
 		public static readonly BindableProperty TintColorProperty =
 			BindableProperty.Create(nameof(TintColor), typeof(Color), typeof(MaterialOutlineTextView), null, BindingMode.OneWay, null, TintColorPropertyChanged, null, null, TintColorDefaultValueCreator);
@@ -37,6 +49,26 @@ namespace XF.Material.Outline.Core
 			this.TextView.TextChanged += this.OnTextChanged;
 		}
 
+		private bool _hasSupplementaryText = false;
+
+		public bool HasError
+		{
+			get => (bool)this.GetValue(HasErrorProperty);
+			set => this.SetValue(HasErrorProperty, value);
+		}
+
+		public double FontSize
+		{
+			get => (double)this.GetValue(FontSizeProperty);
+			set => this.SetValue(FontSizeProperty, value);
+		}
+
+		public Color TextColor
+		{
+			get => (Color)this.GetValue(TextColorProperty);
+			set => this.SetValue(TextColorProperty, value);
+		}
+
 		public Color ErrorColor
 		{
 			get => (Color) this.GetValue(ErrorColorProperty);
@@ -54,10 +86,17 @@ namespace XF.Material.Outline.Core
 			get => (Color) this.GetValue(TintColorProperty);
 			set => this.SetValue(TintColorProperty, value);
 		}
+
 		public string HelperText
 		{
 			get => (string) this.GetValue(HelperTextProperty);
 			set => this.SetValue(HelperTextProperty, value);
+		}
+
+		public string ErrorText
+		{
+			get => (string)this.GetValue(ErrorTextProperty);
+			set => this.SetValue(ErrorTextProperty, value);
 		}
 
 		public string Placeholder
@@ -72,24 +111,33 @@ namespace XF.Material.Outline.Core
 			set => this.SetValue(TextProperty, value);
 		}
 
-		public static CancellationTokenSource AnimCancellationToken { get; set; }
-		
-		private static void HelperTextPropertyChanged(BindableObject bindable, object oldvalue, object newvalue)
+		public float PlaceholderFontSize
 		{
-			MaterialOutlineTextView entry = bindable as MaterialOutlineTextView;
+			get => (float)this.GetValue(PlaceholderFontSizeProperty);
+			set => this.SetValue(PlaceholderFontSizeProperty, value);
+		}
 
-			Debug.Assert(entry != null, nameof(entry) + " != null");
+		public float LabelFontSize
+		{
+			get => (float)this.GetValue(LabelFontSizeProperty);
+			set => this.SetValue(LabelFontSizeProperty, value);
+		}
 
-			//if (string.IsNullOrWhiteSpace((string) oldvalue) && !string.IsNullOrWhiteSpace((string) newvalue))
-			//{
-			//	entry.HeightRequest += 16;
-			//	Grid.SetRowSpan(entry.TextView, 1);
-			//}
-			//else if (string.IsNullOrWhiteSpace((string) newvalue) && !string.IsNullOrWhiteSpace((string) oldvalue))
-			//{
-			//	entry.HeightRequest -= 16;
-			//	Grid.SetRowSpan(entry.TextView, 2);
-			//}
+		public static CancellationTokenSource AnimCancellationToken { get; set; }
+
+		private static void AdjustHeightForSupplementaryText(MaterialOutlineTextView entry, bool grow)
+        {
+			var grid = entry.Content as Grid;
+			if (grow)
+			{
+				grid.RowDefinitions[2].Height = 16;
+				Grid.SetRowSpan(entry.TextView, 1);
+			}
+			else
+			{
+				grid.RowDefinitions[2].Height = 0;
+				Grid.SetRowSpan(entry.TextView, 2);
+			}
 		}
 
 		private static void LabelTextPropertyChanged(BindableObject bindable, object oldvalue, object newvalue)
@@ -197,6 +245,11 @@ namespace XF.Material.Outline.Core
 			return color;
 		}
 
+		public void TapGestureRecognizer_Tapped(object sender, EventArgs args)
+        {
+			this.TextView.Focus();
+        }
+
 		/// <param name="propertyName">The name of the bound property that changed.</param>
 		/// <summary>Method that is called when a bound property is changed.</summary>
 		/// <remarks>To be added.</remarks>
@@ -204,42 +257,69 @@ namespace XF.Material.Outline.Core
 		{
 			base.OnPropertyChanged(propertyName);
 
-			if (propertyName == nameof(this.HeightRequest))
+            switch (propertyName)
             {
-                SetHeightForHelperText();
-            }
-            else if (propertyName == nameof(this.HelperText))
-            {
-                SetHeightForHelperText();
+                case nameof(HeightRequest):
+                    OutlineView.ParentHeightRequest = HeightRequest;
+                    break;
+                case nameof(Text):
+                    TextView.Text = Text;
+                    break;
+                case nameof(WidthRequest):
+                    OutlineView.ParentWidthRequest = WidthRequest;
+                    break;
+                case nameof(FontSize):
+                    TextView.FontSize = FontSize;
+                    break;
+                case nameof(ErrorText):
+                    OutlineView.ErrorText = ErrorText;
 
-				this.OutlineView.HelperText = this.HelperText;
-            }
-			else if (propertyName == nameof(this.Text))
-            {
-				this.TextView.Text = this.Text;
-            }
-			else if (propertyName == nameof(this.WidthRequest))
-			{
-				this.OutlineView.ParentWidthRequest = this.WidthRequest;
-			}
-		}
+                    UpdateHasSupplementaryText();
 
-        private void SetHeightForHelperText()
-        {
-            if (this.OutlineView.ParentHeightRequest != this.HeightRequest)
-            {
-                if (string.IsNullOrWhiteSpace(this.HelperText))
-                {
-                    this.OutlineView.ParentHeightRequest = this.HeightRequest += 16;
-                    Grid.SetRowSpan(this.TextView, 1);
-                }
-                else
-                {
-                    this.OutlineView.ParentHeightRequest = this.HeightRequest -= 16;
-                    Grid.SetRowSpan(this.TextView, 2);
-                }
+                    AdjustHeightForSupplementaryText(this, _hasSupplementaryText);
+                    break;
+                case nameof(TextColor):
+                    TextView.TextColor = TextColor;
+                    break;
+                case nameof(HasError):
+                    OutlineView.HasError = HasError;
+
+                    UpdateHasSupplementaryText();
+
+                    AdjustHeightForSupplementaryText(this, _hasSupplementaryText);
+                    break;
+                case nameof(HelperText):
+                    OutlineView.HelperText = HelperText;
+
+                    UpdateHasSupplementaryText();
+
+                    AdjustHeightForSupplementaryText(this, _hasSupplementaryText);
+                    break;
+                case nameof(PlaceholderFontSize):
+                    OutlineView.PlaceholderFontSize = PlaceholderFontSize;
+                    break;
+                case nameof(LabelFontSize):
+                    OutlineView.LabelFontSize = LabelFontSize;
+                    break;
             }
         }
+
+		private void UpdateHasSupplementaryText()
+        {
+			if (this.HasError && !string.IsNullOrWhiteSpace(this.ErrorText))
+			{
+				this._hasSupplementaryText = true;
+				return;
+			}
+
+			if (!string.IsNullOrWhiteSpace(this.HelperText))
+			{
+				this._hasSupplementaryText = true;
+				return;
+			}
+
+			this._hasSupplementaryText = false;
+		}
 
         private void OnTextChanged(object sender, TextChangedEventArgs e)
 		{
@@ -275,5 +355,5 @@ namespace XF.Material.Outline.Core
 			}
 			return Task.CompletedTask;
 		}
-	}
+    }
 }

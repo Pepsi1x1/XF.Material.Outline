@@ -10,7 +10,10 @@
 	<ContentView.Resources>
 		<core:NullConverter x:Key="NullConverter"/>
 	</ContentView.Resources>
-	<ContentView.Content>
+    <ContentView.GestureRecognizers>
+        <TapGestureRecognizer Tapped="TapGestureRecognizer_Tapped" />
+    </ContentView.GestureRecognizers>
+    <ContentView.Content>
 		<Grid>
 			<Grid.ColumnDefinitions>
 				<ColumnDefinition Width="11" />
@@ -20,31 +23,26 @@
 			<Grid.RowDefinitions>
 				<RowDefinition Height="10" />
 				<RowDefinition Height="*" />
-				<RowDefinition Height="16" />
+				<RowDefinition Height="0" />
 			</Grid.RowDefinitions>
 
-			<core:InternalOutlineView 
+            <core:InternalOutlineView 
 				x:Name="OutlineView"
 				Grid.Row="0"
 				Grid.Column="0"
-				Grid.RowSpan="2" 
+				Grid.RowSpan="3" 
 				Grid.ColumnSpan="3" 
 				TintColor="{Binding TintColor, Mode=OneWay}" 
-				Placeholder="{Binding Placeholder, Mode=OneWay}" />
+				Placeholder="{Binding Placeholder, Mode=OneWay}">                
+            </core:InternalOutlineView>
 
 			<core:InternalTextView 
 				x:Name="TextView"
 				Grid.Column="1" 
 				Grid.Row="1" 
+                Margin="-1,0,0,0"
+                FontSize="{Binding FontSize, Mode=OneWay}"
 				TintColor="{Binding TintColor, Mode=OneWay}" />
-
-			<Label 
-				Grid.Row="2"
-				Grid.Column="1"
-				IsVisible="{Binding HelperText, Mode=OneWay, Converter={StaticResource NullConverter}}" 
-				TextColor="{Binding ForegroundColor, Mode=OneWay}"
-				Text="{Binding HelperText, Mode=OneWay}" 
-				FontSize="12" />
 		</Grid>
 	</ContentView.Content>
 </ContentView>

@@ -12,9 +12,15 @@ namespace XF.Material.Outline.Core
 	[XamlCompilation(XamlCompilationOptions.Compile)]
 	public class InternalOutlineView : SKCanvasView
 	{
+		public static readonly BindableProperty PlaceholderFontSizeProperty = BindableProperty.Create(nameof(PlaceholderFontSize), typeof(float), typeof(InternalOutlineView), 14f, BindingMode.OneWay);
+
+		public static readonly BindableProperty LabelFontSizeProperty = BindableProperty.Create(nameof(LabelFontSize), typeof(float), typeof(InternalOutlineView), 12f, BindingMode.OneWay);
+
 		public static readonly BindableProperty PlaceholderProperty = BindableProperty.Create(nameof(Placeholder), typeof(string), typeof(InternalOutlineView), null, BindingMode.OneWay, null, LabelTextPropertyChanged);
 
 		public static readonly BindableProperty HelperTextProperty = BindableProperty.Create(nameof(HelperText), typeof(string), typeof(InternalOutlineView), null, BindingMode.OneWay);
+
+		public static readonly BindableProperty ErrorTextProperty = BindableProperty.Create(nameof(ErrorText), typeof(string), typeof(InternalOutlineView), null, BindingMode.OneWay);
 
 		public static readonly BindableProperty TintColorProperty =
 			BindableProperty.Create(nameof(TintColor), typeof(Color), typeof(InternalOutlineView), null, BindingMode.OneWay, null, TintColorPropertyChanged, null, null, defaultValueCreator: TintColorDefaultValueCreator);
@@ -46,7 +52,7 @@ namespace XF.Material.Outline.Core
 
 			this.LabelMargin *= scale;
 
-			this.PlaceHolderFontSize *= scale;
+			this.PlaceholderFontSize *= scale;
 
 			this.LabelFontSize *= scale;
 
@@ -81,11 +87,21 @@ namespace XF.Material.Outline.Core
 
 		public float LabelMargin { get; set; } = 16f;
 
-		public float PlaceHolderFontSize { get; set; } = 14.0f;
+		public float PlaceholderFontSize
+		{
+			get => (float)this.GetValue(PlaceholderFontSizeProperty);
+			set => this.SetValue(PlaceholderFontSizeProperty, value);
+		}
 
-		public float LabelFontSize { get; set; } = 12.0f;
+		public float LabelFontSize
+		{
+			get => (float)this.GetValue(LabelFontSizeProperty);
+			set => this.SetValue(LabelFontSizeProperty, value);
+		}
 
 		public bool HasText { get; set; }
+
+		public bool HasError { get; set; }
 
 		public bool InternalIsFocused { get; set; }
 
@@ -101,6 +117,12 @@ namespace XF.Material.Outline.Core
 			set => this.SetValue(HelperTextProperty, value);
 		}
 
+		public string ErrorText
+		{
+			get => (string)this.GetValue(ErrorTextProperty);
+			set => this.SetValue(ErrorTextProperty, value);
+		}
+
 		public float LabelTextHeight { get; private set; }
 
 		public float PlaceholderTextHeight { get; private set; }
@@ -114,8 +136,9 @@ namespace XF.Material.Outline.Core
 		public double ParentWidthRequest { get; set; }
 
 		private bool _isInitialDraw = true;
+        private bool _hasSupplementaryText;
 
-		private static void LabelTextPropertyChanged(BindableObject bindable, object oldvalue, object newvalue)
+        private static void LabelTextPropertyChanged(BindableObject bindable, object oldvalue, object newvalue)
 		{
 			InternalOutlineView entry = bindable as InternalOutlineView;
 
@@ -209,7 +232,7 @@ namespace XF.Material.Outline.Core
 
 				this.LabelTextHeight = paintText.FontMetrics.XHeight * (float) Device.Info.ScalingFactor;
 
-				paintText.TextSize = this.PlaceHolderFontSize;
+				paintText.TextSize = this.PlaceholderFontSize;
 
 				this.PlaceholderTextWidth = paintText.MeasureText(text);
 
@@ -223,7 +246,7 @@ namespace XF.Material.Outline.Core
 
 			if (!this.HasText)
 			{
-				this._currentTextSize = this.PlaceHolderFontSize;
+				this._currentTextSize = this.PlaceholderFontSize;
 
 				float scaledHeightRequest = (float) (this.ParentHeightRequest * Device.Info.ScalingFactor);
 
@@ -268,31 +291,44 @@ namespace XF.Material.Outline.Core
 		/// </remarks>
 		protected override void OnPaintSurface(SKPaintSurfaceEventArgs e)
 		{
+			UpdateHasSupplementaryText();
+
 			SKImageInfo info = e.Info;
 
 			SKSurface surface = e.Surface;
 
 			SKCanvas canvas = surface.Canvas;
 
+
+			float textSize;
+
+			float originTextSize;
+
+			float textDestinationY;
+
+			float textOriginY;
+
+			SKColor skColor;
+
+			float time;
+
 			if (this.InternalIsFocused)
 			{
-				float textSize = this.LabelFontSize;
+				textSize = this.LabelFontSize;
 
-				float originTextSize = Math.Abs(this._currentTextSize - textSize) < 1f ? textSize : 20.0f;
+				originTextSize = Math.Abs(this._currentTextSize - textSize) < 1f ? textSize : 20.0f;
 
-				float textDestinationY = textSize / 2f + this.LabelTextHeight / 2f;
+				textDestinationY = textSize / 2f + this.LabelTextHeight / 2f;
 
-				float textOriginY = Math.Abs(this._currentTextY - textDestinationY) < 1f ? textDestinationY : (info.Height + textSize / 2f) / 2 + this.PlaceholderTextHeight / 3f;
+				textOriginY = Math.Abs(this._currentTextY - textDestinationY) < 1f ? textDestinationY : (info.Height + textSize / 2f) / 2 + this.PlaceholderTextHeight / 3f;
 
-				float time = (float) this.CurrentLoopIteration / this.TotalLoops;
+				time = (float) this.CurrentLoopIteration / this.TotalLoops;
 
-				this.DrawFocused(info, canvas, 2f, this.SkTintColor);
-
-				this.DrawText(canvas, originTextSize, textSize, this.SkTintColor, textDestinationY, textOriginY, time);
+				skColor = this.SkTintColor;
 			}
 			else
 			{
-				float time = (float) this.CurrentLoopIteration / this.TotalLoops;
+				time = (float) this.CurrentLoopIteration / this.TotalLoops;
 
 				if(_isInitialDraw)
                 {
@@ -300,38 +336,60 @@ namespace XF.Material.Outline.Core
 					_isInitialDraw = false;
                 }
 
+				skColor = this.SkForegroundColor;
+
 				if (!this.HasText)
 				{
-					float textSize = this.PlaceHolderFontSize;
+					textSize = this.PlaceholderFontSize;
 
-					float originTextSize = Math.Abs(this._currentTextSize - textSize) < 1f ? textSize : 12.0f;
+					originTextSize = Math.Abs(this._currentTextSize - textSize) < 1f ? textSize : 12.0f;
 
-					float textDestinationY = (info.Height + textSize / 2f) / 2f + this.PlaceholderTextHeight / 3f;
+					textDestinationY = (info.Height + textSize / 2f) / 2f + this.PlaceholderTextHeight / 3f;
 
-					float textOriginY = Math.Abs(this._currentTextY - textDestinationY) < 1f ? textDestinationY : textSize / 2f + this.LabelTextHeight / 2f;
+					if (this._hasSupplementaryText)
+					{
+						textDestinationY = textDestinationY - ((this.LabelTextHeight + this.LabelPadding) / 2) - 2;
+					}
 
-					this.DrawUnfocused(info, canvas, 1f, this.SkForegroundColor);
-
-					this.DrawText(canvas, originTextSize, textSize, this.SkForegroundColor, textDestinationY, textOriginY, time);
+					textOriginY = Math.Abs(this._currentTextY - textDestinationY) < 1f ? textDestinationY : textSize / 2f + this.LabelTextHeight / 2f;					
 				}
 				else
 				{
-					float textSize = this.LabelFontSize;
+					textSize = this.LabelFontSize;
 
-					float originTextSize = Math.Abs(this._currentTextSize - textSize) < 1f ? textSize : 20.0f;
+					originTextSize = Math.Abs(this._currentTextSize - textSize) < 1f ? textSize : 20.0f;
 
-					float textDestinationY = textSize / 2f + this.LabelTextHeight / 2f;
+					textDestinationY = textSize / 2f + this.LabelTextHeight / 2f;
 
-					float textOriginY = Math.Abs(this._currentTextY - textDestinationY) < 1f ? textDestinationY : (info.Height + textSize / 2f) / 2 + this.PlaceholderTextHeight / 3f;
-
-					this.DrawFocused(info, canvas, 1f, this.SkForegroundColor);
-
-					this.DrawText(canvas, originTextSize, textSize, this.SkForegroundColor, textDestinationY, textOriginY, time);
+					textOriginY = Math.Abs(this._currentTextY - textDestinationY) < 1f ? textDestinationY : (info.Height + textSize / 2f) / 2 + this.PlaceholderTextHeight / 3f;
 				}
-
-				// draw on the canvas
-				canvas.Flush();
 			}
+
+			skColor = this.HasError ? this.SkErrorColor : skColor;
+
+			if (!this.InternalIsFocused && !this.HasText)
+            {
+				DrawUnfocused(info, canvas, 1f, skColor);
+			}
+			else
+            {
+				this.DrawFocused(info, canvas, this.InternalIsFocused ? 2f : 1f, skColor);
+			}
+
+			time = Easing.Smoothstep(time);
+
+			this._currentTextY = textDestinationY * time + textOriginY * (1 - time);
+
+			this._currentTextSize = textSize * time + originTextSize * (1 - time);
+			
+			//Placeholder text / Label
+			this.DrawText(canvas, this.Placeholder, this._currentTextSize, skColor, this._currentTextY);
+
+			//Helper Text
+			this.DrawText(canvas, this.HasError ? this.ErrorText : this.HelperText, this.LabelFontSize, this.HasError ? this.SkErrorColor : this.SkForegroundColor, info.Height - this.LabelPadding);
+
+			// draw on the canvas
+			canvas.Flush();
 		}
 
 		private void DrawUnfocused(SKImageInfo info, SKCanvas canvas, float strokeWidth, SKColor colour)
@@ -348,12 +406,14 @@ namespace XF.Material.Outline.Core
 
 				paint.StrokeWidth = strokeWidth;
 
+				float bottom = info.Height - strokeWidth;
+
 				Bounds bounds = new Bounds
 				{
 					Left = strokeWidth,
 					Right = info.Width - strokeWidth,
 					Top = strokeWidth + this.LabelTextHeight / 2f,
-					Bottom = info.Height - strokeWidth
+					Bottom = AdjustHeightForHelperText(bottom)
 				};
 
 				this.DrawOutline(canvas, strokeWidth, bounds, paint, false);
@@ -393,9 +453,9 @@ namespace XF.Material.Outline.Core
 			}
 		}
 
-		private void DrawText(SKCanvas canvas, float originTextSize, float textSize, SKColor textColour, float destinationY, float originY, float time)
+		private void DrawText(SKCanvas canvas, string text, float textSize, SKColor textColour, float yPos)
 		{
-			if (string.IsNullOrWhiteSpace(this.Placeholder))
+			if (string.IsNullOrWhiteSpace(text))
 			{
 			}
 			else
@@ -407,20 +467,14 @@ namespace XF.Material.Outline.Core
 
 					paintText.Color = textColour;
 
-					paintText.IsStroke = false;
+					paintText.IsStroke = false;					
 
-					time = Easing.Smoothstep(time);
-
-					this._currentTextY = destinationY * time + originY * (1 - time);
-
-					this._currentTextSize = textSize * time + originTextSize * (1 - time);
-
-					paintText.TextSize = this._currentTextSize;
+					paintText.TextSize = textSize;
 
 					///SKShaper shaper = new SKShaper(SKTypeface.Default);
 
 					//canvas.DrawShapedText(shaper, this.Placeholder, this.LabelMargin, this._currentTextY, paintText);
-					canvas.DrawText(this.Placeholder, this.LabelMargin, this._currentTextY, paintText);
+					canvas.DrawText(text, this.LabelMargin, yPos, paintText);
 				}
 			}
 		}
@@ -439,16 +493,51 @@ namespace XF.Material.Outline.Core
 
 				paint.StrokeWidth = strokeWidth;
 
+				float bottom  = info.Height - strokeWidth;
+
 				Bounds bounds = new Bounds
 				{
 					Left = strokeWidth,
 					Right = info.Width - strokeWidth,
 					Top = strokeWidth + this.LabelTextHeight / 2f,
-					Bottom = info.Height - strokeWidth
+					Bottom = AdjustHeightForHelperText(bottom)
 				};
 
 				this.DrawOutline(canvas, strokeWidth, bounds, paint, true);
 			}
+		}
+
+		private float AdjustHeightForHelperText(float bottom)
+        {
+			float adjusted = bottom;
+
+			if (this._hasSupplementaryText)
+			{
+				adjusted = bottom - (this.LabelTextHeight + this.LabelPadding);
+			}
+			else
+			{
+				
+			}
+
+			return adjusted;
+		}
+
+		private void UpdateHasSupplementaryText()
+		{
+			if (this.HasError && !string.IsNullOrWhiteSpace(this.ErrorText))
+			{
+				this._hasSupplementaryText = true;
+				return;
+			}
+
+			if (!string.IsNullOrWhiteSpace(this.HelperText))
+			{
+				this._hasSupplementaryText = true;
+				return;
+			}
+
+			this._hasSupplementaryText = false;
 		}
 	}
 }
