@@ -1,0 +1,63 @@
+﻿<?xml version="1.0"?>
+<package>
+  <metadata>
+    <id>XF.Material.Outline</id>
+    <title>XF.Material.Outline</title>
+    <version>0.0.1</version>
+    <authors>David Thompson</authors>
+    <owners>David Thompson</owners>
+    <projectUrl>https://github.com/Pepsi1x1/XF.Material.Outline</projectUrl>
+    <license type="file">LICENSE.md</license>
+    <iconUrl></iconUrl>
+    <requireLicenseAcceptance>true</requireLicenseAcceptance>
+    <releaseNotes></releaseNotes>
+    <description>A Xamarin.Forms library using SkiaSharp for Xamarin.Android and Xamarin.iOS to implement the outline styled text view in Google's Material Design.</description>
+    <copyright>Copyright © 2020</copyright>
+    <tags>Xamarin.Forms Xamarin Xam XF Visual Material Control SkiaSharp Skia</tags>
+    <dependencies>
+    <group targetFramework="netstandard2.0">
+        <dependency id="Xamarin.Forms"
+                    version="4.5.0.725" />
+        <dependency id="SkiaSharp.Views.Forms"
+                    version="1.68.3" />
+      </group>
+
+      <group targetFramework="MonoAndroid90">
+        <dependency id="Xamarin.Forms"
+                    version="4.5.0.725" />
+      </group>
+      <group targetFramework="Xamarin.iOS10">
+        <dependency id="Xamarin.Forms"
+                    version="4.5.0.725" />
+      </group>
+    </dependencies>
+  </metadata>
+  <files>
+    <file src="LICENSE.md" target="" />
+    <file src="XF.Material.Outline.Core\bin\Release\netstandard2.0\XF.Material.Outline.Core.dll"
+          target="lib\netstandard2.0" />
+    <file src="XF.Material.Outline.Core\bin\Release\netstandard2.0\XF.Material.Outline.Core.pdb"
+          target="lib\netstandard2.0" />
+    
+
+    <file src="XF.Material.Outline.Android\bin\Release\XF.Material.Outline.Core.dll"
+          target="lib\MonoAndroid90" />
+    <file src="XF.Material.Outline.Android\bin\Release\XF.Material.Outline.Core.pdb"
+          target="lib\MonoAndroid90" />
+    <file src="XF.Material.Outline.Android\bin\Release\XF.Material.Outline.Android.dll"
+          target="lib\MonoAndroid90" />
+    <file src="XF.Material.Outline.Android\bin\Release\XF.Material.Outline.Android.pdb"
+          target="lib\MonoAndroid90" />
+
+
+
+    <file src="XF.Material.Outline.iOS\bin\Release\XF.Material.Outline.Core.dll"
+          target="lib\Xamarin.iOS10" />
+    <file src="XF.Material.Outline.iOS\bin\Release\XF.Material.Outline.Core.dll"
+          target="lib\Xamarin.iOS10" />
+    <file src="XF.Material.Outline.iOS\bin\Release\XF.Material.Outline.iOS.dll"
+          target="lib\Xamarin.iOS10" />
+    <file src="XF.Material.Outline.iOS\bin\Release\XF.Material.Outline.iOS.pdb"
+          target="lib\Xamarin.iOS10" />
+  </files>
+</package>
