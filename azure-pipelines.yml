@@ -1,0 +1,46 @@
+trigger:
+  batch: true
+  branches:
+    include:
+    - master
+  paths:
+    exclude:
+    - README.md
+    - LICENSE.md
+
+pool:
+  vmImage: 'macOS-latest'
+  demands: msbuild
+
+variables:
+  solution: '**/XF.Material.Outline.AzurePipeline.sln'
+  buildConfiguration: 'Release'
+  outputDirectory: '$(build.artifactStagingDirectory)/$(BuildConfiguration)'
+
+steps:
+- task: NuGetToolInstaller@1
+  inputs:
+    versionSpec: 5.x
+    checkLatest: true
+
+- task: NuGetCommand@2
+  inputs:
+    restoreSolution: '$(solution)'
+
+- task: MSBuild@1
+  displayName: 'Build solution XF.Material.Outline.AzurePipeline.sln'
+  inputs:
+    solution: '$(solution)'
+    configuration: '$(buildConfiguration)'
+
+- task: NuGetCommand@2
+  inputs:
+    command: 'pack'
+    packagesToPack: 'XF.Material.Outline.nuspec'
+    versioningScheme: 'off'
+    
+- task: PublishBuildArtifacts@1
+  inputs:
+    PathtoPublish: '$(Build.ArtifactStagingDirectory)'
+    ArtifactName: 'drop'
+    publishLocation: 'Container'
