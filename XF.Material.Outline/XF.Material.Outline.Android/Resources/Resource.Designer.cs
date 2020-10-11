@@ -8,9 +8,9 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-[assembly: global::Android.Runtime.ResourceDesignerAttribute("XF.Material.Outline.Android.Resource", IsApplication=false)]
+[assembly: global::Android.Runtime.ResourceDesignerAttribute("XF.Material.Outline.Droid.Resource", IsApplication=false)]
 
-namespace XF.Material.Outline.Android
+namespace XF.Material.Outline.Droid
 {
 	
 	

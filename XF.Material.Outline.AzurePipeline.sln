@@ -14,7 +14,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Meta", "Meta", "{133FCDBA-3
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "XF.Material.Outline.Core", "XF.Material.Outline\XF.Material.Outline.Core\XF.Material.Outline.Core.csproj", "{BADC926C-397A-483C-929A-480CDC9A3600}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "XF.Material.Outline.Android", "XF.Material.Outline\XF.Material.Outline.Android\XF.Material.Outline.Android.csproj", "{F085C3E8-BB5E-48FA-A8DC-CC9E69BB041D}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "XF.Material.Outline.Droid", "XF.Material.Outline\XF.Material.Outline.Android\XF.Material.Outline.Droid.csproj", "{F085C3E8-BB5E-48FA-A8DC-CC9E69BB041D}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "XF.Material.Outline.iOS", "XF.Material.Outline\XF.Material.Outline.iOS\XF.Material.Outline.iOS.csproj", "{E71F3053-056C-4381-9638-048ED73BDFF6}"
 EndProject
