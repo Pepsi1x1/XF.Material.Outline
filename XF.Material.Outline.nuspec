@@ -8,7 +8,7 @@
     <owners>David Thompson</owners>
     <projectUrl>https://github.com/Pepsi1x1/XF.Material.Outline</projectUrl>
     <license type="file">LICENSE.md</license>
-    <iconUrl></iconUrl>
+    <iconUrl>https://github.com/Pepsi1x1/XF.Material.Outline/raw/master/icon.png</iconUrl>
     <requireLicenseAcceptance>true</requireLicenseAcceptance>
     <releaseNotes></releaseNotes>
     <description>A Xamarin.Forms library using SkiaSharp for Xamarin.Android and Xamarin.iOS to implement the outline styled text view in Google's Material Design.</description>
