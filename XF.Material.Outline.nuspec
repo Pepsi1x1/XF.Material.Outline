@@ -34,30 +34,30 @@
   </metadata>
   <files>
     <file src="LICENSE.md" target="" />
-    <file src="XF.Material.Outline.Core\bin\Release\netstandard2.0\XF.Material.Outline.Core.dll"
+    <file src="XF.Material.Outline/XF.Material.Outline.Core\bin\Release\netstandard2.0\XF.Material.Outline.Core.dll"
           target="lib\netstandard2.0" />
-    <file src="XF.Material.Outline.Core\bin\Release\netstandard2.0\XF.Material.Outline.Core.pdb"
-          target="lib\netstandard2.0" />
+    <!--<file src="XF.Material.Outline/XF.Material.Outline.Core\bin\Release\netstandard2.0\XF.Material.Outline.Core.pdb"
+          target="lib\netstandard2.0" />-->
     
 
-    <file src="XF.Material.Outline.Android\bin\Release\XF.Material.Outline.Core.dll"
+    <file src="XF.Material.Outline/XF.Material.Outline.Android/bin/Release/XF.Material.Outline.Core.dll"
           target="lib\MonoAndroid90" />
-    <file src="XF.Material.Outline.Android\bin\Release\XF.Material.Outline.Core.pdb"
+    <!--<file src="XF.Material.Outline/XF.Material.Outline.Android/bin/Release/XF.Material.Outline.Core.pdb"
+          target="lib\MonoAndroid90" />-->
+    <file src="XF.Material.Outline/XF.Material.Outline.Android/bin/Release/XF.Material.Outline.Droid.dll"
           target="lib\MonoAndroid90" />
-    <file src="XF.Material.Outline.Android\bin\Release\XF.Material.Outline.Android.dll"
-          target="lib\MonoAndroid90" />
-    <file src="XF.Material.Outline.Android\bin\Release\XF.Material.Outline.Android.pdb"
+    <file src="XF.Material.Outline/XF.Material.Outline.Android/bin/Release/XF.Material.Outline.Droid.pdb"
           target="lib\MonoAndroid90" />
 
 
 
-    <file src="XF.Material.Outline.iOS\bin\Release\XF.Material.Outline.Core.dll"
+    <file src="XF.Material.Outline/XF.Material.Outline.iOS/bin/Release/XF.Material.Outline.Core.dll"
           target="lib\Xamarin.iOS10" />
-    <file src="XF.Material.Outline.iOS\bin\Release\XF.Material.Outline.Core.dll"
+    <!--<file src="XF.Material.Outline/XF.Material.Outline.iOS/bin/Release/XF.Material.Outline.Core.pdb"
+          target="lib\Xamarin.iOS10" />-->
+    <file src="XF.Material.Outline/XF.Material.Outline.iOS/bin/Release/XF.Material.Outline.iOS.dll"
           target="lib\Xamarin.iOS10" />
-    <file src="XF.Material.Outline.iOS\bin\Release\XF.Material.Outline.iOS.dll"
-          target="lib\Xamarin.iOS10" />
-    <file src="XF.Material.Outline.iOS\bin\Release\XF.Material.Outline.iOS.pdb"
+    <file src="XF.Material.Outline/XF.Material.Outline.iOS/bin/Release/XF.Material.Outline.iOS.pdb"
           target="lib\Xamarin.iOS10" />
   </files>
 </package>
